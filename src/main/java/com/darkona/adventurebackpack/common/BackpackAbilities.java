@@ -216,7 +216,7 @@ public class BackpackAbilities
     {
         if (player.isInWater())
         {
-            player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 1, -5));
+            player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 1, 2));
             itemBat(player, world, backpack);
         }else{
             backpackRemovals.itemSquid(player,world, backpack);
@@ -234,9 +234,9 @@ public class BackpackAbilities
         if (player.isPotionActive(Potion.fireResistance.id)) {
             potion = player.getActivePotionEffect(Potion.fireResistance);
         }
-        if (potion == null || potion.getDuration() < 5 && potion.getAmplifier() != -5)
+        if (potion == null || potion.getDuration() < 5 && potion.getAmplifier() != 2)
         {
-            player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5000, -5));
+            player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5000, 2));
         }
     }
 
@@ -418,16 +418,16 @@ public class BackpackAbilities
         if (player.isPotionActive(Potion.regeneration.id)) {
             potion = player.getActivePotionEffect(Potion.regeneration);
         }
-        if (potion == null || potion.getDuration() < 40 && potion.getAmplifier() != -5)
+        if (potion == null || potion.getDuration() < 40 && potion.getAmplifier() != 1)
         {
-            player.addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 5000, -5));
+            player.addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 5000, 1));
         }
         potion = null;
         if (player.isPotionActive(Potion.damageBoost.id)) {
             potion = player.getActivePotionEffect(Potion.damageBoost);
         }
-        if (potion == null || potion.getDuration() < 40 && potion.getAmplifier() != -5) {
-            player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 5000, -5));
+        if (potion == null || potion.getDuration() < 40 && potion.getAmplifier() != 1) {
+            player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 5000, 1));
         }
     }
 
@@ -745,8 +745,8 @@ public class BackpackAbilities
         if (player.isPotionActive(Potion.moveSpeed.id)) {
             potion = player.getActivePotionEffect(Potion.moveSpeed);
         }
-        if (potion == null || potion.getDuration() < 40 && potion.getAmplifier() != -5) {
-            player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 5000, -5));
+        if (potion == null || potion.getDuration() < 40 && potion.getAmplifier() != 2) {
+            player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 5000, 2));
         }
         inv.setLastTime(noteTime);
         inv.markDirty();

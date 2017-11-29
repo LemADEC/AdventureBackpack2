@@ -27,6 +27,7 @@ public class WaterEffect extends FluidEffect
     @Override
     public void affectDrinker(World world, Entity entity)
     {
+    	/*
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) entity;
@@ -51,5 +52,6 @@ public class WaterEffect extends FluidEffect
             }
 
         }
+        /**/
     }
 }
