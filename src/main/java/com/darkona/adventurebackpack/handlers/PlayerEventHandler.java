@@ -292,7 +292,7 @@ public class PlayerEventHandler
             {
                 if (event.side.isServer())
                 {
-                    EntityPlayerMP playerMP = (EntityPlayerMP) event.player;
+//                    EntityPlayerMP playerMP = (EntityPlayerMP) event.player;
                     BackpackProperty.syncToNear(event.player);
 //                    if (Utils.notNullAndInstanceOf(event.player.openContainer, IWearableContainer.class))
 //                    {
