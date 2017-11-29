@@ -50,7 +50,7 @@ public class ServerActions
         try
         {
             InventoryBackpack backpack = Wearing.getBackpackInv(player, true);
-            ItemStack current = player.getCurrentEquippedItem();
+            final ItemStack current = player.inventory.mainInventory[slot];
             backpack.openInventory();
             if (direction < 0)
             {
