@@ -10,7 +10,6 @@ import com.darkona.adventurebackpack.item.ItemHose;
 import com.darkona.adventurebackpack.network.WearableModePacket;
 import com.darkona.adventurebackpack.network.messages.EntitySoundPacket;
 import com.darkona.adventurebackpack.reference.BackpackNames;
-import com.darkona.adventurebackpack.util.LogHelper;
 import com.darkona.adventurebackpack.util.Wearing;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -36,46 +35,6 @@ public class ServerActions
 {
     public static final boolean HOSE_SWITCH = false;
     public static final boolean HOSE_TOGGLE = true;
-
-    /**
-     * Cycles tools. In a cycle. The tool in your hand with the tools in the special tool slots of the backpack, to be precise.
-     *
-     * @param player    - Duh
-     * @param direction - An integer indicating the direction of the switch. Nobody likes to swith always inthe same
-     *                  direction all the timeInSeconds. That's stupid.
-     * @param slot      The slot that will be switched with the backpack.
-     */
-    public static void cycleTool(EntityPlayer player, int direction, int slot)
-    {
-        try
-        {
-            InventoryBackpack backpack = Wearing.getBackpackInv(player, true);
-            final ItemStack current = player.inventory.mainInventory[slot];
-            backpack.openInventory();
-            if (direction < 0)
-            {
-                //LogHelper.info("Item of class " + backpack.getStackInSlot(Constants.lowerTool).getItem().getClass().getName());
-                player.inventory.mainInventory[slot] = backpack.getStackInSlot(Constants.upperTool);
-                backpack.setInventorySlotContentsNoSave(Constants.upperTool, backpack.getStackInSlot(Constants.lowerTool));
-                backpack.setInventorySlotContentsNoSave(Constants.lowerTool, current);
-
-            } else
-            {
-                if (direction > 0)
-                {
-                    player.inventory.mainInventory[slot] = backpack.getStackInSlot(Constants.lowerTool);
-                    backpack.setInventorySlotContentsNoSave(Constants.lowerTool, backpack.getStackInSlot(Constants.upperTool));
-                    backpack.setInventorySlotContentsNoSave(Constants.upperTool, current);
-                }
-            }
-            backpack.markDirty();
-            player.inventory.closeInventory();
-        } catch (Exception oops)
-        {
-            LogHelper.debug("Exception trying to cycle tools.");
-            oops.printStackTrace();
-        }
-    }
 
     /**
      * @param world  The world. Like, the WHOLE world. That's a lot of stuff. Do stuff with it, like detecting biomes

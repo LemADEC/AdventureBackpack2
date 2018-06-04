@@ -29,7 +29,7 @@ public class CycleToolPacket implements IMessageHandler<CycleToolPacket.CycleToo
             switch (message.typeOfAction)
             {
                 case CYCLE_TOOL_ACTION:
-                    ServerActions.cycleTool(player, message.directionOfCycle, message.slot);
+                    // ServerActions.cycleTool(player, message.directionOfCycle, message.slot);
                     break;
                 case TOGGLE_HOSE_TANK:
                     ServerActions.switchHose(player, ServerActions.HOSE_TOGGLE, message.directionOfCycle, message.slot);
