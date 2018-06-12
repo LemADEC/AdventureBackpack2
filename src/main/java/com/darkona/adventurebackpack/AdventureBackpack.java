@@ -22,8 +22,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 
 import java.util.Calendar;
 
@@ -33,9 +31,10 @@ import java.util.Calendar;
  * @author Javier Darkona
  */
 @Mod(modid = ModInfo.MOD_ID,
-        name = ModInfo.MOD_NAME,
-        version = ModInfo.MOD_VERSION,
-        guiFactory = ModInfo.GUI_FACTORY_CLASS
+     name = ModInfo.MOD_NAME,
+     version = ModInfo.MOD_VERSION,
+     guiFactory = ModInfo.GUI_FACTORY_CLASS,
+     dependencies = "after:codechickenlib;"
 )
 public class AdventureBackpack
 {

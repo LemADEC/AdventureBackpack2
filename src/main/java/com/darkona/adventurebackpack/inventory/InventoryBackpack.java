@@ -399,10 +399,5 @@ public class InventoryBackpack implements IInventoryAdventureBackpack
         containerStack.stackTagCompound.getCompoundTag("backpackData").removeTag("ABPItems");
         containerStack.stackTagCompound.getCompoundTag("backpackData").setTag("ABPItems", items);
     }
-
-    public boolean hasBlock(Block block)
-    {
-        return InventoryActions.hasBlockItem(this, block);
-    }
 }
 

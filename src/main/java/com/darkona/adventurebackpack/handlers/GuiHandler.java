@@ -8,6 +8,7 @@ import com.darkona.adventurebackpack.inventory.*;
 import com.darkona.adventurebackpack.util.Wearing;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
@@ -53,6 +54,7 @@ public class GuiHandler implements IGuiHandler
                     return new ContainerBackpack(player, new InventoryBackpack(Wearing.getHoldingBackpack(player)), ContainerBackpack.SOURCE_HOLDING);
                 }
                 break;
+                /*
             case COPTER_HOLDING:
                 if (Wearing.isHoldingCopter(player))
                 {
@@ -77,6 +79,7 @@ public class GuiHandler implements IGuiHandler
                     return new ContainerJetpack(player, new InventorySteamJetpack(Wearing.getWearingSteam(player)), true);
                 }
                 break;
+                /**/
             default:
                 player.closeScreen();
                 break;
@@ -92,9 +95,10 @@ public class GuiHandler implements IGuiHandler
         switch (ID)
         {
             case BACKPACK_TILE:
-                if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileAdventureBackpack)
+                final TileEntity tileEntity = world.getTileEntity(x, y, z);
+                if (tileEntity instanceof TileAdventureBackpack)
                 {
-                    return new GuiAdvBackpack(player, (TileAdventureBackpack) world.getTileEntity(x, y, z));
+                    return new GuiAdvBackpack(player, (TileAdventureBackpack) tileEntity);
                 }
                 break;
             case BACKPACK_WEARING:
