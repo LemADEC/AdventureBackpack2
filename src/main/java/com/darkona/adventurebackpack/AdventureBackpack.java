@@ -13,6 +13,8 @@ import com.darkona.adventurebackpack.util.LogHelper;
 import com.darkona.adventurebackpack.util.Utils;
 import com.darkona.adventurebackpack.util.calendar.ChineseCalendar;
 import com.darkona.adventurebackpack.util.calendar.JewishCalendar;
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -57,9 +59,12 @@ public class AdventureBackpack
 
     GuiHandler guiHandler;
 
+    public static Logger logger;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        logger = event.getModLog();
 
         int year = Calendar.getInstance().get(Calendar.YEAR), month = Calendar.getInstance().get(Calendar.MONTH) + 1, day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
