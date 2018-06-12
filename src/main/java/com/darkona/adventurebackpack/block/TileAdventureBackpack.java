@@ -1,5 +1,7 @@
 package com.darkona.adventurebackpack.block;
 
+import java.util.UUID;
+
 import com.darkona.adventurebackpack.common.BackpackAbilities;
 import com.darkona.adventurebackpack.common.Constants;
 import com.darkona.adventurebackpack.common.IInventoryAdventureBackpack;
@@ -46,7 +48,9 @@ public class TileAdventureBackpack extends TileEntity implements IInventoryAdven
     private int lastTime;
     private int luminosity;
     private NBTTagCompound extendedProperties;
-
+    
+    private UUID uuid;
+    
     public int getLuminosity()
     {
         return luminosity;
@@ -272,6 +276,11 @@ public class TileAdventureBackpack extends TileEntity implements IInventoryAdven
             lastTime = backpackData.getInteger("lastTime");
             special = backpackData.getBoolean("special");
             extendedProperties = backpackData.getCompoundTag("extended");
+    
+            uuid = new UUID(backpackData.getLong("uuidMost"), backpackData.getLong("uuidLeast"));
+            if (uuid.getMostSignificantBits() == 0 && uuid.getLeastSignificantBits() == 0) {
+                uuid = UUID.randomUUID();
+            }
         }
     }
 
@@ -298,7 +307,14 @@ public class TileAdventureBackpack extends TileEntity implements IInventoryAdven
         backpackData.setTag("extended", extendedProperties);
         backpackData.setTag("rightTank", rightTank.writeToNBT(new NBTTagCompound()));
         backpackData.setTag("leftTank", leftTank.writeToNBT(new NBTTagCompound()));
-
+    
+        if (uuid == null || (uuid.getMostSignificantBits() == 0 && uuid.getLeastSignificantBits() == 0)) {
+            uuid = UUID.randomUUID();
+        }
+    
+        backpackData.setLong("uuidMost", uuid.getMostSignificantBits());
+        backpackData.setLong("uuidLeast", uuid.getLeastSignificantBits());
+    
         compound.setTag("backpackData",backpackData);
     }
 
@@ -527,7 +543,7 @@ public class TileAdventureBackpack extends TileEntity implements IInventoryAdven
     }
 
     @Override
-    public ItemStack getParentItemStack()
+    public UUID getUUID()
     {
         return null;
     }

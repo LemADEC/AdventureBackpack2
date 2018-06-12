@@ -1,5 +1,8 @@
 package com.darkona.adventurebackpack.inventory;
 
+import java.util.UUID;
+
+import com.darkona.adventurebackpack.AdventureBackpack;
 import com.darkona.adventurebackpack.common.Constants;
 import com.darkona.adventurebackpack.common.IInventoryAdventureBackpack;
 import com.darkona.adventurebackpack.item.ItemAdventureBackpack;
@@ -45,11 +48,6 @@ public class ContainerBackpack extends Container implements IWearableContainer
         makeSlots(player.inventory);
         inventory.openInventory();
         this.source = source;
-    }
-
-    public IInventoryAdventureBackpack getInventoryBackpack()
-    {
-        return inventory;
     }
 
     private void bindPlayerInventory(InventoryPlayer invPlayer)
@@ -142,6 +140,9 @@ public class ContainerBackpack extends Container implements IWearableContainer
     @Override
     public boolean canInteractWith(EntityPlayer player)
     {
+        if (!isValid()) {
+            return false;
+        }
         return inventory.isUseableByPlayer(player);
     }
 
@@ -183,12 +184,51 @@ public class ContainerBackpack extends Container implements IWearableContainer
         }
     }
 
+    private boolean isValid() {
+        if (source == SOURCE_HOLDING) {
+            final UUID uuidContainer = inventory.getUUID();
+            final ItemStack itemStackHeld = player.getHeldItem();
+            if ( itemStackHeld == null
+              || !(itemStackHeld.getItem() instanceof ItemAdventureBackpack) ) {
+                player.closeScreen();
+                AdventureBackpack.logger.error(String.format("Invalid backpack movement, possible duping from %s",
+                                                             player));
+                return false;
+            }
+            final InventoryBackpack inventoryBackpackHeld = new InventoryBackpack(itemStackHeld);
+            final UUID uuidHeld = inventoryBackpackHeld.getUUID();
+            if (!uuidContainer.equals(uuidHeld)) {
+                player.closeScreen();
+                AdventureBackpack.logger.error(String.format("Invalid backpack movement, possible duping from %s",
+                                                             player));
+                return false;
+            }
+        }
+        return true;
+    }
+    
     @Override
     public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player)
     {
-        if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem() && source == SOURCE_HOLDING)
-        {
+        /*
+        if (!player.worldObj.isRemote) {
+            AdventureBackpack.logger.info(String.format("slotClick(%d, %d, %d)",
+                                                        slot, button, flag));
+        }
+        /**/
+        if (!isValid()) {
             return null;
+        }
+        if (source == SOURCE_HOLDING) {
+            if (flag == 0 && slot == player.inventory.currentItem) {
+                return null;
+            }
+            if (flag == 2 && button >= 0 && button < 9) {// hotbar shortcut
+                if ( button == player.inventory.currentItem
+                  || slot == player.inventory.currentItem ) {// current or target slot is the item in hand
+                    return null;
+                }
+            }
         }
         return super.slotClick(slot, button, flag, player);
     }

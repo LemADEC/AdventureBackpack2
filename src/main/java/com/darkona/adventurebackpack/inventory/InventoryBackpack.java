@@ -1,6 +1,8 @@
 package com.darkona.adventurebackpack.inventory;
 
 
+import java.util.UUID;
+
 import com.darkona.adventurebackpack.block.BlockAdventureBackpack;
 import com.darkona.adventurebackpack.block.TileAdventureBackpack;
 import com.darkona.adventurebackpack.common.BackpackAbilities;
@@ -42,6 +44,8 @@ public class InventoryBackpack implements IInventoryAdventureBackpack
     private int lastTime = 0;
     private boolean special = false;
     public NBTTagCompound extendedProperties = new NBTTagCompound();
+    
+    private UUID uuid;
 
     public InventoryBackpack(ItemStack backpack)
     {
@@ -79,9 +83,9 @@ public class InventoryBackpack implements IInventoryAdventureBackpack
     }
 
     @Override
-    public ItemStack getParentItemStack()
+    public UUID getUUID()
     {
-        return this.containerStack;
+        return this.uuid;
     }
 
     @Override
@@ -238,14 +242,19 @@ public class InventoryBackpack implements IInventoryAdventureBackpack
             lastTime = backpackData.getInteger("lastTime");
             special = backpackData.getBoolean("special");
             extendedProperties = backpackData.getCompoundTag("extendedProperties");
+
+            uuid = new UUID(backpackData.getLong("uuidMost"), backpackData.getLong("uuidLeast"));
+            if (uuid.getMostSignificantBits() == 0 && uuid.getLeastSignificantBits() == 0) {
+                uuid = UUID.randomUUID();
+                backpackData.setLong("uuidMost", uuid.getMostSignificantBits());
+                backpackData.setLong("uuidLeast", uuid.getLeastSignificantBits());
+            }
         }
     }
 
     @Override
     public void saveToNBT(NBTTagCompound compound)
     {
-       // if(Utils.inServer())
-       // {
         NBTTagCompound backpackData = new NBTTagCompound();
         NBTTagList items = new NBTTagList();
         for (int i = 0; i < inventory.length; i++)
@@ -268,8 +277,10 @@ public class InventoryBackpack implements IInventoryAdventureBackpack
         backpackData.setTag("rightTank", rightTank.writeToNBT(new NBTTagCompound()));
         backpackData.setTag("leftTank", leftTank.writeToNBT(new NBTTagCompound()));
 
-        compound.setTag("backpackData",backpackData);
-        //}
+        backpackData.setLong("uuidMost", uuid.getMostSignificantBits());
+        backpackData.setLong("uuidLeast", uuid.getLeastSignificantBits());
+
+        compound.setTag("backpackData", backpackData);
     }
 
     @Override
@@ -329,10 +340,7 @@ public class InventoryBackpack implements IInventoryAdventureBackpack
     @Override
     public void closeInventory()
     {
-       /* if(Utils.inServer())
-        {*/
         saveToNBT(containerStack.stackTagCompound);
-       // }
     }
 
     @Override

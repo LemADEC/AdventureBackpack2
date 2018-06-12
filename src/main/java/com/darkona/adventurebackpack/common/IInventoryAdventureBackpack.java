@@ -1,5 +1,7 @@
 package com.darkona.adventurebackpack.common;
 
+import java.util.UUID;
+
 import com.darkona.adventurebackpack.block.TileAdventureBackpack;
 import com.darkona.adventurebackpack.inventory.IInventoryTanks;
 import net.minecraft.item.Item;
@@ -21,7 +23,7 @@ public interface IInventoryAdventureBackpack extends IInventoryTanks
 
     public TileAdventureBackpack getTile();
 
-    public ItemStack getParentItemStack();
+    public UUID getUUID();
 
     public String getColorName();
 
