@@ -29,6 +29,8 @@ import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.World;
+
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -292,16 +294,9 @@ public class PlayerEventHandler
             {
                 if (event.side.isServer())
                 {
-//                    EntityPlayerMP playerMP = (EntityPlayerMP) event.player;
-                    BackpackProperty.syncToNear(event.player);
-//                    if (Utils.notNullAndInstanceOf(event.player.openContainer, IWearableContainer.class))
-//                    {
-//                        //playerMP.sendContainerAndContentsToPlayer(playerMP.openContainer, playerMP.openContainer.getInventory());
-//                        BackpackProperty.syncToNear(event.player);
-//                    }else
-//                    {
-//                        BackpackProperty.syncToNear(event.player);
-//                    }
+                    if (((event.player.ticksExisted + event.player.getEntityId()) & 0x1F) == 0) {// only update every 32 ticks (every ticks is 5% CPU)
+                        BackpackProperty.syncToNear(event.player);
+                    }
                 }
             }
         }

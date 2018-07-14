@@ -45,8 +45,7 @@ public class BackpackProperty implements IExtendedEntityProperties
 
     public static void syncToNear(EntityPlayer player)
     {
-        //Thanks diesieben07!!!
-        if(player != null && player instanceof EntityPlayerMP)
+        if (player instanceof EntityPlayerMP)
         {
             try
             {
